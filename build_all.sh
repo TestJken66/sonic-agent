@@ -85,7 +85,7 @@ zipItem() {
     else
         #        echo "not windows platform"
         # prepare sonic-android-supply
-        cp $(pwd)/pkgs/sonic-android-supply/${androidSupportVersion}_$1/sas $(pwd)/plugins/sonic-android-supply.
+        cp $(pwd)/pkgs/sonic-android-supply/${androidSupportVersion}_$1/sas $(pwd)/plugins/sonic-android-supply
         # prepare sonic-go-mitmproxy
         cp $(pwd)/pkgs/sonic-go-mitmproxy/${goMitmproxyVersion}_$1/sonic-go-mitmproxy $(pwd)/plugins/sonic-go-mitmproxy
         # prepare sonic-ios-bridge
