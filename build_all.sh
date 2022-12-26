@@ -1,9 +1,17 @@
 #!/bin/bash
 # 0. first  defind version
 targetVersion="v2.2.2"
+## some libs version, code will get newest, igone
 androidSupportVersion="0.0.2"
 goMitmproxyVersion="1.3.3"
 iosBridgeVersion="1.3.5"
+
+## Note: this platform is -, not _
+dash_platforms=("windows-x86" "windows-x86_64" "macosx-arm64" "macosx-x86_64" "linux-arm64" "linux-x86" "linux-x86_64")
+## Note: this platform is _, not -
+underline_platforms=("windows_x86" "windows_x86_64" "macosx_arm64" "macosx_x86_64" "linux_arm64" "linux_x86" "linux_x86_64")
+# mapping
+platformsMap=(["windows_x86"]="windows-x86" ["windows_x86_64"]="windows-x86_64" ["macosx_arm64"]="macosx-arm64" ["macosx_x86_64"]="macosx-x86_64" ["linux_arm64"]="linux-arm64" ["linux_x86"]="linux-x86" ["linux_x86_64"]="linux-x86_64")
 
 # make sure use java 15
 makesureJavaVersion15() {
@@ -45,9 +53,7 @@ cleanAndBuildAllPlatform() {
     #    mvn package -Dplatform=linux-x86 -DreleaseMode=true -Dmaven.test.skip=true
     #    mvn package -Dplatform=linux-x86_64 -DreleaseMode=true -Dmaven.test.skip=true
     #
-    ## Note: this platform is -, not _
-    platforms=("windows-x86" "windows-x86_64" "macosx-arm64" "macosx-x86_64" "linux-arm64" "linux-x86" "linux-x86_64")
-    for platform in "${platforms[@]}"; do
+    for platform in "${dash_platforms[@]}"; do
         mvn package -Dplatform=${platform} -DreleaseMode=true -Dmaven.test.skip=true
     done
 }
@@ -59,7 +65,6 @@ clearCaches() {
 # process one platform
 # $1: $platform
 zipItem() {
-    platformsMap=(["windows_x86"]="windows-x86" ["windows_x86_64"]="windows-x86_64" ["macosx_arm64"]="macosx-arm64" ["macosx_x86_64"]="macosx-x86_64" ["linux_arm64"]="linux-arm64" ["linux_x86"]="linux-x86" ["linux_x86_64"]="linux-x86_64")
 
     echo "platform : $1"
     if [[ $1 = windows* ]]; then
@@ -100,15 +105,13 @@ zipItem() {
 zipPkgs() {
     clearCaches
     cp target/*.jar .
-    ## Note: this platform is _, not -
-    platforms=("windows_x86" "windows_x86_64" "macosx_arm64" "macosx_x86_64" "linux_arm64" "linux_x86" "linux_x86_64")
-    for platform in "${platforms[@]}"; do
+    for platform in "${underline_platforms[@]}"; do
         zipItem "${platform}"
     done
     rm -rf *.jar
     mv -f *.zip release/
 }
-zipPkgs
+
 prepareEnvs() {
     rm -rf *.jar
     rm -rf *.zip
@@ -207,4 +210,4 @@ main() {
     fi
 }
 
-#main
+main
