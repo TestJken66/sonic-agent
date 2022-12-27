@@ -121,6 +121,11 @@ public class AndroidWSServer implements IAndroidWSServer {
                 log.info("uninstall sonic Apk err...");
             }
             try {
+                //     -r: replace existing application
+                //     -t: allow test packages
+                //     -d: allow version code downgrade (debuggable packages only)
+                //     -p: partial application install (install-multiple only)
+                //     -g: grant all runtime permissions
                 iDevice.installPackage("plugins/sonic-android-apk.apk",
                         true, new InstallReceiver(), 180L, 180L, TimeUnit.MINUTES
                         , "-r", "-t", "-g");

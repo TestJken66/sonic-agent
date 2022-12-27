@@ -250,6 +250,7 @@ public class AndroidDeviceBridgeTool implements ApplicationListener<ContextRefre
      * @author ZhouYiXun
      * @des 发送shell指令给对应设备
      * @date 2021/8/16 19:47
+     * @return shell执行结果
      */
     public static String executeCommand(IDevice iDevice, String command) {
         CollectingOutputReceiver output = new CollectingOutputReceiver();
@@ -264,6 +265,7 @@ public class AndroidDeviceBridgeTool implements ApplicationListener<ContextRefre
     }
 
     public static boolean checkSonicApkVersion(IDevice iDevice) {
+        // 获取【org.cloud.sonic.android】的版本号（即versionName=SONIC_VERSION）
         String all = executeCommand(iDevice, "dumpsys package org.cloud.sonic.android");
         if (!all.contains("versionName=" + apkVersion)) {
             return false;
@@ -293,6 +295,8 @@ public class AndroidDeviceBridgeTool implements ApplicationListener<ContextRefre
     public static void forward(IDevice iDevice, int port, String service) {
         String name = String.format("process-%s-forward-%s", iDevice.getSerialNumber(), service);
         Integer oldP = forwardPortMap.get(name);
+        logger.info("[sanbo]forward name {} ----> oldP: {} "
+                , name, oldP);
         if (oldP != null) {
             removeForward(iDevice, oldP, service);
         }
@@ -603,10 +607,13 @@ public class AndroidDeviceBridgeTool implements ApplicationListener<ContextRefre
         }
     }
 
+    // 设备弹窗，大蓝屏
     public static void searchDevice(IDevice iDevice) {
         executeCommand(iDevice, "am start -n org.cloud.sonic.android/.plugin.activityPlugin.SearchActivity");
     }
 
+    // 充电模式和非充电模式切换
+    // 假的。。电量不会降低
     public static void controlBattery(IDevice iDevice, int type) {
         if (type == 0) {
             executeCommand(iDevice, "dumpsys battery unplug && dumpsys battery set status 1");
