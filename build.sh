@@ -197,17 +197,15 @@ main() {
 ############################ args: all、linux、mac、windows、my
 ####################################################################################
 if [ ! -n "$1" ]; then
-    echo "Not input args, will build all platform packages! support args: all/mac/linux/windows/my"
-    ## Note: this platform is -, not _
-    dash_platforms=("windows-x86" "windows-x86_64" "macosx-arm64" "macosx-x86_64" "linux-arm64" "linux-x86" "linux-x86_64")
-    ## Note: this platform is _, not -
-    underline_platforms=("windows_x86" "windows_x86_64" "macosx_arm64" "macosx_x86_64" "linux_arm64" "linux_x86" "linux_x86_64")
-    # mapping
-    platformsMap=(["windows_x86"]="windows-x86" ["windows_x86_64"]="windows-x86_64" ["macosx_arm64"]="macosx-arm64" ["macosx_x86_64"]="macosx-x86_64" ["linux_arm64"]="linux-arm64" ["linux_x86"]="linux-x86" ["linux_x86_64"]="linux-x86_64")
-    main
+    echo "Not input args, Can't build, please input valid args! Support args:
+    - all:      build all platrom, contains mac/linux/windows
+    - mac:      build linux platrom, contains macosx-arm64 、 macosx-x86_64
+    - linux:    build linux platrom, contains linux_arm64 、 linux_x86 、linux_x86_64
+    - windows:  build windows platrom, contains windows_x86 、 windows_x86_64
+    - my:       build your platform which build the source "
 else
     if [[ "$1" == "all" ]]; then
-        echo "input args [all], will build all platform packages!"
+        echo "input args [all], will build all platform packages~"
         ## Note: this platform is -, not _
         dash_platforms=("windows-x86" "windows-x86_64" "macosx-arm64" "macosx-x86_64" "linux-arm64" "linux-x86" "linux-x86_64")
         ## Note: this platform is _, not -
@@ -216,7 +214,7 @@ else
         platformsMap=(["windows_x86"]="windows-x86" ["windows_x86_64"]="windows-x86_64" ["macosx_arm64"]="macosx-arm64" ["macosx_x86_64"]="macosx-x86_64" ["linux_arm64"]="linux-arm64" ["linux_x86"]="linux-x86" ["linux_x86_64"]="linux-x86_64")
         main
     elif [[ "$1" == "mac" ]]; then
-        echo "input args [mac], will build macOSX platform packages!"
+        echo "input args [mac], will build macOSX platform packages~"
         ## Note: this platform is -, not _
         dash_platforms=("macosx-arm64" "macosx-x86_64")
         ## Note: this platform is _, not -
@@ -225,7 +223,7 @@ else
         platformsMap=(["macosx_arm64"]="macosx-arm64" ["macosx_x86_64"]="macosx-x86_64")
         main
     elif [[ "$1" == "linux" ]]; then
-        echo "input args [linux], will build Linux platform packages!"
+        echo "input args [linux], will build Linux platform packages~"
         ## Note: this platform is -, not _
         dash_platforms=("linux-arm64" "linux-x86" "linux-x86_64")
         ## Note: this platform is _, not -
@@ -234,7 +232,7 @@ else
         platformsMap=(["linux_arm64"]="linux-arm64" ["linux_x86"]="linux-x86" ["linux_x86_64"]="linux-x86_64")
         main
     elif [[ "$1" == "windows" ]]; then
-        echo "input args [windows], will build Windows platform packages!"
+        echo "input args [windows], will build Windows platform packages~"
         ## Note: this platform is -, not _
         dash_platforms=("windows-x86" "windows-x86_64")
         ## Note: this platform is _, not -
@@ -251,7 +249,7 @@ else
         elif [[ "$_uname" == "Linux" ]]; then
             _targetPlatform="linux"
         fi
-        echo "input args [my], will build ${_targetPlatform}-${_mm} platform packages!"
+        echo "input args [my], will build ${_targetPlatform}-${_mm} platform packages~"
         ## Note: this platform is -, not _
         dash_platforms=("${_targetPlatform}-${_mm}")
         ## Note: this platform is _, not -
